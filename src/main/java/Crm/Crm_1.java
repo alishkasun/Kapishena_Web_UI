@@ -6,7 +6,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.concurrent.TimeUnit;
 
@@ -15,23 +17,24 @@ import static java.lang.Thread.sleep;
 public class Crm_1 {
 
     private static final String LOGIN_PAGE_URL = "https://crm.geekbrains.space";
-    private static final String STUDENT_LOGIN = "Applanatest";
+    private static final String STUDENT_LOGIN = "Applanatest1";
     private static final String STUDENT_PASSWORD = "Student2020!";
     private static WebDriver driver;
+    private static  WebDriverWait webDriverWait5sec;
 
-    public static void main(String[] args) throws InterruptedException {
+
+    static {
         WebDriverManager.chromedriver().setup();
-
-        // Класс настроек Chrome browser https://chromedriver.chromium.org/capabilities
         ChromeOptions options = new ChromeOptions();
-
-        // Полный перечень https://peter.sh/experiments/chromium-command-line-switches/
         options.addArguments("--disable-notifications");
         options.addArguments("--disable-popup-blocking");
 
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+        webDriverWait5sec = new WebDriverWait(driver, 5);
+    }
+    public static void main(String[] args) throws InterruptedException {
 
         //Логинимся
         driver.get(LOGIN_PAGE_URL);
@@ -52,14 +55,15 @@ public class Crm_1 {
 
         driver.findElement(By.cssSelector(".logo > a"));
         //Кликаем проекты
-        sleep(5000);
-        driver.findElement(By.xpath("//span[contains(.,'Проекты')]")).click();
 
-        sleep(5000);
+        driver.findElement(By.xpath("//span[contains(.,'Проекты')]")).click();
+        new WebDriverWait(driver, 5).until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(".dropdown:nth-child(3) .single:nth-child(4) .title")));
+
         driver.findElement(By.cssSelector(".dropdown:nth-child(3) .single:nth-child(4) .title")).click();
+     //   new WebDriverWait(driver, 5).until(ExpectedConditions.presenceOfElementLocated(By.xpath(".dropdown:nth-child(3) .single:nth-child(4) .title")));
 
         // кликаем на кнопку Создать проект
-        sleep(5000);
+
         driver.findElement(By.linkText("Создать проект")).click();
 
         //Кликаем на поле Наименование
@@ -67,7 +71,7 @@ public class Crm_1 {
         driver.findElement(By.name("crm_project[name]")).click();
 
         //Наименование орагизации
-        sleep(2000);
+
         driver.findElement(By.name("crm_project[name]")).sendKeys("ali1");
 
 
@@ -75,15 +79,13 @@ public class Crm_1 {
         sleep(5000);
         driver.findElement(By.cssSelector(".select2-default > .select2-chosen")).click();
 
-        sleep(2000);
         driver.findElement(By.cssSelector(".select2-focused")).sendKeys("1234");
 
-        sleep(5000);
         driver.findElement(By.cssSelector(".select2-match")).click();
 
 
         //Подразделение
-        sleep(5000);
+        sleep(3000);
         driver.findElement(By.name("crm_project[businessUnit]")).click();
 
         Select businessUnit = new Select(driver.findElement(By.name("crm_project[businessUnit]")));
@@ -103,10 +105,12 @@ public class Crm_1 {
         Select manager = new Select(driver.findElement(By.name("crm_project[manager]")));
         manager.selectByVisibleText("Юзеров Юзер");
 
-        sleep(5000);
-        driver.findElement(By.cssSelector(".btn-group:nth-child(4) > .btn")).click();
+        sleep(2000);
+        //driver.findElement(By.cssSelector(".btn-group:nth-child(4) > .btn")).click();
+        driver.findElement(By.xpath("//button[contains(.,'Сохранить и закрыть')]")).click();
 
 
+        driver.close();
         driver.quit();
     }
 }
