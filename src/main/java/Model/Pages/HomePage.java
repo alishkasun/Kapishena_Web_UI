@@ -4,6 +4,7 @@ import Model.BaseView;
 import Model.common.Values;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 
 import javax.xml.ws.Action;
@@ -11,7 +12,6 @@ import javax.xml.ws.Action;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class HomePage extends BaseView {
-   private WebDriver driver;
 
    @FindBy(xpath = ".//span[@class='title' and text()='Проекты']")
    public WebElement projects;
@@ -35,9 +35,9 @@ public class HomePage extends BaseView {
     }
 
     public AllProjectsPage moveToProject (){
-        Action action = new Action(driver);
+        Actions action = new Actions(driver);
         action
-                .moveToElements(projects)
+                .moveToElement(projects)
                 .build()
                 .perform();
         myProjects.click();
@@ -45,9 +45,9 @@ public class HomePage extends BaseView {
     }
 
     public AllContactPage moveToContact (){
-        Action actionCon = new Action(driver);
+        Actions actionCon = new Actions(driver);
         actionCon
-                .moveToElementsCon(contragent)
+                .moveToElement(contragent)
                 .build()
                 .perform();
         myContact.click();

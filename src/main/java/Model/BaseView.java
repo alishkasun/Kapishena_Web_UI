@@ -1,5 +1,6 @@
 package Model;
 
+import org.junit.jupiter.api.AfterEach;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -16,4 +17,5 @@ public abstract class BaseView {
         this.wait30second = new WebDriverWait(driver, 30);
         PageFactory.initElements(driver, this);
     }
+
 }
